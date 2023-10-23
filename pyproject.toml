@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "scypro-coursework-7-habittracker"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "scypro_coursework_7_habittracker"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.2.6"
+psycopg2 = "^2.9.9"
+djangorestframework = "^3.14.0"
+djangorestframework-simplejwt = "^5.3.0"
+coverage = "^7.3.2"
+drf-yasg = "^1.21.7"
+celery = "^5.3.4"
+redis = "^5.0.1"
+eventlet = "^0.33.3"
+django-celery-beat = "^2.5.0"
+django-cors-headers = "^4.3.0"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
