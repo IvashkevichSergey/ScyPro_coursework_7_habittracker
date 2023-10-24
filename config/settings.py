@@ -179,6 +179,6 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
         'task': 'habits.tasks.check_habits_to_send',
-        'schedule': timedelta(minutes=2),
+        'schedule': timedelta(minutes=5),
     },
 }
