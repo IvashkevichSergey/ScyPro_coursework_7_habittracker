@@ -7,11 +7,14 @@ from users.serializers import UserSerializer
 
 
 class UserCreateAPIView(generics.CreateAPIView):
+    """Представление для реализации CRUD методов модели User"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
+        """Метод корректно создаёт пароль пользователя
+        в виде хэшированного ключа"""
         initial_data = self.get_serializer(data=request.data)
         if initial_data.is_valid():
             validated_data = dict.copy(initial_data.data)

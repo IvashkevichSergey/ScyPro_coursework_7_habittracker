@@ -12,8 +12,9 @@ class HabitsCRUDTestCase(APITestCase):
     def setUp(self):
         """Функция создаёт набор объектов перед каждым тестированием"""
         self.client = APIClient()
-        self.test_user = User.objects.create(email='123@qwe.ru', password='123')
-        self.test_user_2 = User.objects.create(email='123@123.ru', password='123')
+        self.test_user = User.objects.create(
+            email='123@qwe.ru', password='123'
+        )
         self.client.force_authenticate(user=self.test_user)
 
         self.habit = Habits.objects.create(
@@ -53,7 +54,9 @@ class HabitsCRUDTestCase(APITestCase):
         """Тест PATCH запроса"""
         data = {"where": "Somewhere over there"}
 
-        self.client.patch(reverse('habits:habits-detail', args=[self.habit.pk]), data=data)
+        self.client.patch(reverse(
+            'habits:habits-detail', args=[self.habit.pk]), data=data
+        )
 
         self.habit.refresh_from_db()
 
@@ -76,13 +79,17 @@ class HabitsCRUDTestCase(APITestCase):
         """Тест на корректную отработку валидаторов"""
         data = {"how_long_seconds": 200}
 
-        response = self.client.patch(reverse('habits:habits-detail', args=[self.habit.pk]), data=data)
+        response = self.client.patch(
+            reverse('habits:habits-detail', args=[self.habit.pk]), data=data
+        )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         data = {"how_often_days": 10}
 
-        response = self.client.patch(reverse('habits:habits-detail', args=[self.habit.pk]), data=data)
+        response = self.client.patch(
+            reverse('habits:habits-detail', args=[self.habit.pk]), data=data
+        )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -98,6 +105,27 @@ class HabitsCRUDTestCase(APITestCase):
 
         data = {"where": "Somewhere else"}
 
-        response = self.client.patch(reverse('habits:habits-detail', args=[self.alien_habit.pk]), data=data)
+        response = self.client.patch(
+            reverse(
+                'habits:habits-detail',
+                args=[self.alien_habit.pk]
+            ), data=data
+        )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_habits_permission(self):
+        """Тест на представление со списком привычек текущего пользователя"""
+        Habits.objects.create(
+            where="Somewhere",
+            what="Do somewhat",
+            how_long_seconds=30,
+            reward="Some reward",
+        )
+
+        response = self.client.get(
+            reverse('habits:user_habits'),
+        )
+
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(Habits.objects.all().count(), 2)

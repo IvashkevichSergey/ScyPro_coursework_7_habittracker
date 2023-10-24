@@ -1,14 +1,14 @@
-from rest_framework import serializers, status
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
-
 from habits.models import Habits
 
 
 class HabitsDefaultSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Привычек"""
     author = serializers.CharField(source='author.email', read_only=True)
 
     def validate_how_long_seconds(self, value):
+        """Валидатор для поля how_long_seconds"""
         if value and value > 120:
             raise ValidationError(
                 "Поле --продолжительность привычки-- "
@@ -16,6 +16,7 @@ class HabitsDefaultSerializer(serializers.ModelSerializer):
         return super(HabitsDefaultSerializer, self).validate(value)
 
     def validate_how_often_days(self, value):
+        """Валидатор для поля how_often_days"""
         if value > 7:
             raise ValidationError(
                 "Поле --периодичность выполнения привычки-- "

@@ -21,6 +21,7 @@ django-celery-beat = "^2.5.0"
 django-cors-headers = "^4.3.0"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
+flake8 = "^6.1.0"
 
 
 [build-system]

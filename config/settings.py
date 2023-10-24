@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'redis',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -101,16 +102,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -169,3 +174,11 @@ TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 
 # URL-адрес брокера сообщений
 CELERY_BROKER_URL = 'redis://localhost:6379'
+
+# Настройки для выполнения периодических задача
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'habits.tasks.check_habits_to_send',
+        'schedule': timedelta(minutes=2),
+    },
+}

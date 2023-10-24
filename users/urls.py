@@ -6,5 +6,5 @@ from users.views import UserCreateAPIView
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('register/', UserCreateAPIView.as_view())
+    path('register/', UserCreateAPIView.as_view(), name='register')
 ]
