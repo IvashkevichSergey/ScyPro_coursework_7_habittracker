@@ -90,9 +90,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'habits_db',
-        'USER': os.getenv('USER'),
-        'PASSWORD': os.getenv('PASSWORD'),
+        # 'NAME': 'habits_db',
+        'NAME': 'postgres',
+        # 'USER': os.getenv('USER'),
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        # 'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': 'db'
     }
 }
 
@@ -173,7 +177,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
 
 # Настройки для выполнения периодических задача
 CELERY_BEAT_SCHEDULE = {
